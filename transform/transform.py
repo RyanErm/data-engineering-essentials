@@ -10,7 +10,16 @@ def duckdb_read_parquet(input_file):
     try:
         # Connect to local DuckDB instance
         con = duckdb.connect(database='transform.duckdb', read_only=False)
+        # clear out the table if exisits
+    con.execute(f"""
+        DROP TABLE IF EXISITS yellow_trip_data_202501;
+        """)
+    print("Table has been dropped")
 
+    con.execute(f"""
+        CREATE TABLE yellow_trip_data_202501 AS SELECT * FROM read_parquet('{input});
+        """)
+    
 
     except Exception as e:
         print(f"An error occurred: {e}")
