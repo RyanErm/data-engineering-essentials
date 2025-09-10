@@ -17,9 +17,15 @@ def duckdb_read_parquet(input_file):
     print("Table has been dropped")
 
     con.execute(f"""
-        CREATE TABLE yellow_trip_data_202501 AS SELECT * FROM read_parquet('{input});
+        CREATE TABLE yellow_trip_data_202501 AS SELECT * FROM read_parquet('{input_file});
         """)
-    
+    print("Records have been sotred in a local folder")
+
+    count = con.execute(f"""
+        SELECT COUNT(*) FROM yelloe_trip_data202501;
+        """)
+
+    print(f{"Number of records imported imported: {count}")
 
     except Exception as e:
         print(f"An error occurred: {e}")
